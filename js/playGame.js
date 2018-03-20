@@ -45,24 +45,20 @@ function setColors() {
         $player1.addClass('active');
         $player2.removeClass('active');
 
-        $boxes.on('mouseenter', event => {
-            $(this).css("background-image", "url(../img/o.svg)");
+        $boxes.hover(event =>{
+            console.log("Hover!");
+            $(this).addClass('box-filled-1');
+        }, () => {
+            console.log('Unhover');
+            $(this).removeClass('box-filled-1');
         });
-
-        $boxes.on('mouseleave', )
-
-        // $boxes.on('mouseenter mouseleave', function (event) {
-        //     $(this).toggle(
-        //         $(this).css("background-image": );
-        //     );
-        // });
 
     } else {//ready player 2
         $player2.addClass('active');
         $player1.removeClass('active');
-        // $boxes.on('mouseenter mouseleave', function (event) {
-        //     $(this).toggleClass('box-filled-2');
-        // });
+        $boxes.hover(event =>{
+            $(this).addClass('box-filled-2');
+        });
     }
 }
 
