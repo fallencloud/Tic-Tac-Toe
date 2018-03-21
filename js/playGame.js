@@ -9,11 +9,26 @@ let isWon = false;
 let turnCounter = 0;
 let count = 1;
 
+//creates classes that allow are used to check
+  //win conditions
 for (let i = 0; i < $boxes.length; i++){
     $boxes[i].classList.add(count);
     count++;
 }
 
+//shows winner 
+function showWinner() {
+    if (winner === 'player1'){
+        $winScreen.addClass('screen-win-one');
+        $winScreen.show();
+    } else if (winner === 'player2') {
+        $winScreen.addClass('screen-win-two');
+    } else if (winner === 'tie') {
+        $winScreen.addClass('screen-win-tie');
+    }
+   $winScreen.show();
+}
+//for player1, check for diagonal win
 function checkDiag_1() {
     //let diag1 = [1, 5, 9];
     let diag1_1 = $('.1');
@@ -37,7 +52,7 @@ function checkDiag_1() {
 
         return diag1Check;
     }
-
+    
     let checkDiag2 = () => {
         let diag2Check = true;
          //check first col
@@ -55,6 +70,7 @@ function checkDiag_1() {
     return checkDiag1() || checkDiag2();
 }
 
+//for player2 check for diagonal win
 function checkDiag_2() {
     //let diag1 = [1, 5, 9];
     let diag1_1 = $('.1');
@@ -96,6 +112,7 @@ function checkDiag_2() {
     return checkDiag1() || checkDiag2();
 }
 
+//for player 1, check for column win
 function checkCols_1() {
     // let col1 = [1, 4, 7];
     let col1_1 = $('.1');
@@ -153,6 +170,7 @@ function checkCols_1() {
     return checkCol1() || checkCol2() || checkCol3();
 }
 
+//for player2, check for column win
 function checkCols_2() {
     // let col1 = [1, 4, 7];
     let col1_1 = $('.1');
@@ -210,7 +228,7 @@ function checkCols_2() {
     return checkCol1() || checkCol2() || checkCol3();
 }
 
-
+//for player1,check for row win
 function checkRows_1() {
 //     let row1 = [1, 2, 3];
     let row1_1 = $('.1');
@@ -270,72 +288,68 @@ function checkRows_1() {
     return checkRow1() || checkRow2() || checkRow3();
 }
 
+//for player2, check for row win
 function checkRows_2() {
-    //     let row1 = [1, 2, 3];
-        let row1_1 = $('.1');
-        let row1_2 = $('.2');
-        let row1_3 = $('.3');
-    //     let row2 = [4, 5, 6];
-        let row2_1 = $('.4');
-        let row2_2 = $('.5');
-        let row2_3 = $('.6');
-    //     let row3 = [7, 8, 9];
-        let row3_1 = $('.7');
-        let row3_2 = $('.8');
-        let row3_3 = $('.9');
-    
-        let checkRow1 = () => {
-            let row1Check = true;
-             //check first col
-            if (!row1_1.hasClass('box-filled-2')) {
-                row1Check = false;
-            } else if (!row1_2.hasClass('box-filled-2')) {
-                row1Check = false;
-            } else if (!row1_3.hasClass('box-filled-2')) {
-                row1Check = false;
-            }
-    
-            return row1Check;
+//     let row1 = [1, 2, 3];
+    let row1_1 = $('.1');
+    let row1_2 = $('.2');
+    let row1_3 = $('.3');
+//     let row2 = [4, 5, 6];
+    let row2_1 = $('.4');
+    let row2_2 = $('.5');
+    let row2_3 = $('.6');
+//     let row3 = [7, 8, 9];
+    let row3_1 = $('.7');
+    let row3_2 = $('.8');
+    let row3_3 = $('.9');
+
+    let checkRow1 = () => {
+        let row1Check = true;
+            //check first col
+        if (!row1_1.hasClass('box-filled-2')) {
+            row1Check = false;
+        } else if (!row1_2.hasClass('box-filled-2')) {
+            row1Check = false;
+        } else if (!row1_3.hasClass('box-filled-2')) {
+            row1Check = false;
         }
-    
-        let checkRow2 = () => {
-            let row2Check = true;
-             //check first col
-            if (!row2_1.hasClass('box-filled-2')) {
-                row2Check = false;
-            } else if (!row2_2.hasClass('box-filled-2')) {
-                row2Check = false;
-            } else if (!row2_3.hasClass('box-filled-2')) {
-                row2Check = false;
-            }
-    
-            return row2Check;
-        }
-    
-        let checkRow3 = () => {
-            let row3Check = true;
-             //check first col
-            if (!row3_1.hasClass('box-filled-2')) {
-                row3Check = false;
-            } else if (!row3_2.hasClass('box-filled-2')) {
-                row3Check = false;
-            } else if (!row3_3.hasClass('box-filled-2')) {
-                row3Check = false;
-            }
-    
-            return row3Check;
-        }
-    
-        return checkRow1() || checkRow2() || checkRow3();
+
+        return row1Check;
     }
 
-// function playGame() {
-      
-// }
+    let checkRow2 = () => {
+        let row2Check = true;
+            //check first col
+        if (!row2_1.hasClass('box-filled-2')) {
+            row2Check = false;
+        } else if (!row2_2.hasClass('box-filled-2')) {
+            row2Check = false;
+        } else if (!row2_3.hasClass('box-filled-2')) {
+            row2Check = false;
+        }
 
+        return row2Check;
+    }
 
+    let checkRow3 = () => {
+        let row3Check = true;
+            //check first col
+        if (!row3_1.hasClass('box-filled-2')) {
+            row3Check = false;
+        } else if (!row3_2.hasClass('box-filled-2')) {
+            row3Check = false;
+        } else if (!row3_3.hasClass('box-filled-2')) {
+            row3Check = false;
+        }
 
+        return row3Check;
+    }
 
+    //if any one of these is true, return true
+    return checkRow1() || checkRow2() || checkRow3();
+}
+
+//shows the start screen and triggers the main game
 function showStart() {
     $screen.fadeIn(2000);
 
@@ -343,6 +357,7 @@ function showStart() {
     $startButton.on('click', startGame);
 }
 
+//looks for win conditions and updates isWon
 function checkStatus() {
     if (turnCounter %2 === 0) {
         if(checkCols_1() || checkRows_1() || checkDiag_1()) {
@@ -362,19 +377,22 @@ function checkStatus() {
        console.log(turnCounter);
        console.log(winner);
     }
+
+    return isWon;
 }
 
-function takeTurn(event) {
+//adds the correct class if a box is clicked
+function takeTurn(box) {
     if (turnCounter % 2 === 0 ) {
-        if (!$(this).hasClass('box-filled-2') && !$(this).hasClass('box-filled-1')) {
-            $(this).addClass('box-filled-1');
-        } else if ($(this).hasClass('box-filled-2')){
-            $(this).removeClass('box-filled-2');
+        if (!box.hasClass('box-filled-2') && !$(this).hasClass('box-filled-1')) {
+            box.addClass('box-filled-1');
+        } else if (box.hasClass('box-filled-2')){
+            box.removeClass('box-filled-2');
             $(this).addClass('box-fileld-1');
         }
     } else if (turnCounter %2 !== 0) {
-        if (!$(this).hasClass('box-filled-1') && !$(this).hasClass('box-filled-2')){
-            $(this).addClass('box-filled-2');
+        if (!box.hasClass('box-filled-1') && !$(this).hasClass('box-filled-2')){
+            box.addClass('box-filled-2');
         }
     }
 }
@@ -407,25 +425,19 @@ function startGame() {
     $screen.fadeOut(2000);
     setColors();
 
+
+
     do {
         $boxes.on('click', function (event) {
-            takeTurn(event);
-         }); 
-
-         checkStatus();
-         turnCounter++;
-         setColors();         
+            takeTurn($(this));
+         });     
+     checkStatus();
+     turnCounter++;
+     setColors();         
     } while (isWon === false);
 
-    if (winner === 'player1'){
-        $winScreen.addClass('screen-win-one');
-        $winScreen.show();
-    } else if (winner === 'player2') {
-        $winScreen.addClass('screen-win-two');
-    } else if (winner === 'tie') {
-        $winScreen.addClass('screen-win-tie');
-    }
-   
+    showWinner();
+
 }
 
 showStart();
