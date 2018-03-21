@@ -45,9 +45,12 @@ function setColors() {
         $player1.addClass('active');
         $player2.removeClass('active');
 
-        $boxes.on('mouseenter mouseleave', function (event) {
-            $(this).toggleClass('box-filled-1');
-
+        $boxes.hover(function() {
+            $(this).css("background-image", "url(../img/o.svg)")
+            .css("background-color","#FFA000");
+        }, function() {
+            $(this).css("background", "#EFEFEF")
+            .css("background-image", "none")
         });
     } else {//ready player 2
         $player2.addClass('active');
@@ -65,11 +68,14 @@ function startGame() {
 
    $boxes.on('click', function (event) {
        if (turnCounter % 2 === 0 ) {
-                if (!$(this).hasClass('box-filled-2')) {
+                if (!$(this).hasClass('box-filled-2') && !$(this).hasClass('box-filled-1')) {
                     $(this).addClass('box-filled-1');
-            }
+                } else if ($(this).hasClass('box-filled-2')){
+                    $(this).removeClass('box-filled-2');
+                    $(this).addClass('box-fileld-1');
+                }
         } else {
-            if (!$(this).hasClass('box-filled-1')){
+            if (!$(this).hasClass('box-filled-1') && !$(this).hasClass('box-filled-2')){
                 $(this).addClass('box-filled-2');
             }
         }
