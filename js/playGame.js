@@ -343,6 +343,42 @@ function showStart() {
     $startButton.on('click', startGame);
 }
 
+function checkStatus() {
+    if (turnCounter %2 === 0) {
+        if(checkCols_1() || checkRows_1() || checkDiag_1()) {
+           winner = 'player1';
+           isWon = true;
+        }
+    } else if (turnCounter % 2 !== 0) {
+       if(checkCols_2() || checkRows_2() || checkDiag_2()) {
+           winner = 'player2';
+           isWon = true;
+        }
+    } else if (turnCounter === 8) {
+        isWon = true;
+        winner = 'tie';
+    } else {
+       console.log(isWon);
+       console.log(turnCounter);
+       console.log(winner);
+    }
+}
+
+function takeTurn(event) {
+    if (turnCounter % 2 === 0 ) {
+        if (!$(this).hasClass('box-filled-2') && !$(this).hasClass('box-filled-1')) {
+            $(this).addClass('box-filled-1');
+        } else if ($(this).hasClass('box-filled-2')){
+            $(this).removeClass('box-filled-2');
+            $(this).addClass('box-fileld-1');
+        }
+    } else if (turnCounter %2 !== 0) {
+        if (!$(this).hasClass('box-filled-1') && !$(this).hasClass('box-filled-2')){
+            $(this).addClass('box-filled-2');
+        }
+    }
+}
+
 function setColors() {
     //ready player 1
     if (turnCounter % 2 === 0) {
@@ -371,44 +407,15 @@ function startGame() {
     $screen.fadeOut(2000);
     setColors();
 
-    while (isWon === false) {
+    do {
         $boxes.on('click', function (event) {
-            if (turnCounter % 2 === 0 ) {
-                     if (!$(this).hasClass('box-filled-2') && !$(this).hasClass('box-filled-1')) {
-                         $(this).addClass('box-filled-1');
-                     } else if ($(this).hasClass('box-filled-2')){
-                         $(this).removeClass('box-filled-2');
-                         $(this).addClass('box-fileld-1');
-                     }
-             } else {
-                 if (!$(this).hasClass('box-filled-1') && !$(this).hasClass('box-filled-2')){
-                     $(this).addClass('box-filled-2');
-                 }
-             }
-     
-             if (turnCounter %2 === 0) {
-                 if(checkCols_1() || checkRows_1() || checkDiag_1()) {
-                    winner = 'player1';
-                    isWon = true;
-                 }
-             } else if (turnCounter % 2 !== 0) {
-                if(checkCols_2() || checkRows_2() || checkDiag_2()) {
-                    winner = 'player2';
-                    isWon = true;
-                 }
-             } else if (turnCounter === 8) {
-                 isWon = true;
-                 winner = 'tie';
-             } else {
-                console.log(isWon);
-                console.log(turnCounter);
-                console.log(winner);
-                
-                turnCounter++;
-                setColors();
-             }             
+            takeTurn(event);
          }); 
-    }
+
+         checkStatus();
+         turnCounter++;
+         setColors();         
+    } while (isWon === false);
 
     if (winner === 'player1'){
         $winScreen.addClass('screen-win-one');
