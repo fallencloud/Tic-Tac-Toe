@@ -1,6 +1,7 @@
 const $screen = $('#start');
-const $winScreen = $('.screen .screen-win#finish');
+let $winScreen = $('#finish');
 $winScreen.hide();
+let $resetButton = $('.reset-button');
 const $boxes = $('.boxes .box');
 const $player1 = $('#player1');
 const $player2 = $('#player2');
@@ -16,15 +17,34 @@ for (let i = 0; i < $boxes.length; i++){
     count++;
 }
 
+//resets the game board
+function resetBoard() {
+    //reset game variables
+    isWon = false;
+    winner = '';
+    turnCounter = 0;
+
+    //reset grid
+    $boxes.each(function() {
+        $(this).removeClass('box-filled-1')
+        .removeClass('box-filled-2');
+    });
+
+    setColors();
+}//end reset board
 //shows winner 
 function showWinner() {
+    $winMsg = $('.message');    
+
     if (winner === 'player1'){
         $winScreen.addClass('screen-win-one');
-        $winScreen.show();
+        $winMsg.text('Winner');
     } else if (winner === 'player2') {
         $winScreen.addClass('screen-win-two');
+        $winMsg.text('Winner');
     } else if (winner === 'tie') {
         $winScreen.addClass('screen-win-tie');
+        $winMsg.text("It's a tie!");
     }
    $winScreen.show();
 }
@@ -363,20 +383,19 @@ function checkStatus() {
         if(checkCols_1() || checkRows_1() || checkDiag_1()) {
            winner = 'player1';
            isWon = true;
+        } else if (turnCounter === 8) {
+            winner = 'tie';
+            isWon = true;
         }
     } else if (turnCounter % 2 !== 0) {
        if(checkCols_2() || checkRows_2() || checkDiag_2()) {
            winner = 'player2';
            isWon = true;
         }
-    } else if (turnCounter === 8) {
+    } else {
         isWon = true;
         winner = 'tie';
-    } else {
-       console.log(isWon);
-       console.log(turnCounter);
-       console.log(winner);
-    }
+    } 
 
     return isWon;
 }
@@ -425,18 +444,25 @@ function startGame() {
     $screen.fadeOut(2000);
     setColors();
 
+    $boxes.on('click', function (event) {
+        takeTurn($(this));
+        isWon = checkStatus();
+        if (isWon) {
+            showWinner();
+            resetBoard();
+            setColors();
+        } else {
+            turnCounter++;
+            setColors();
+        }
+     });  
 
-
-    do {
-        $boxes.on('click', function (event) {
-            takeTurn($(this));
-         });     
-     checkStatus();
-     turnCounter++;
-     setColors();         
-    } while (isWon === false);
-
-    showWinner();
+     $resetButton.on('click', function (event) {
+        $winScreen.removeClass('screen-win-one')
+          .removeClass('screen-win-two')
+          .removeClass('screen-win-tie');
+        $winScreen.fadeOut('slow');
+     });
 
 }
 
