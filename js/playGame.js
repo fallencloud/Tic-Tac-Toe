@@ -403,15 +403,16 @@ function checkStatus() {
 //adds the correct class if a box is clicked
 function takeTurn(box) {
     if (turnCounter % 2 === 0 ) {
-        if (!box.hasClass('box-filled-2') && !$(this).hasClass('box-filled-1')) {
+        if (!box.hasClass('box-filled-2') && !box.hasClass('box-filled-1')) {
             box.addClass('box-filled-1');
-        } else if (box.hasClass('box-filled-2')){
-            box.removeClass('box-filled-2');
-            $(this).addClass('box-fileld-1');
+        } else if (box.hasClass('box-filled-1') || box.hasClass('box-filled-2')){
+            turnCounter--;
         }
     } else if (turnCounter %2 !== 0) {
-        if (!box.hasClass('box-filled-1') && !$(this).hasClass('box-filled-2')){
+        if (!box.hasClass('box-filled-1') && !box.hasClass('box-filled-2')){
             box.addClass('box-filled-2');
+        } else if (box.hasClass('box-filled-2') || box.hasClass('box-filled-1')) {
+            turnCounter--
         }
     }
 }
